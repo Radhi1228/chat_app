@@ -1,3 +1,4 @@
+import 'package:chatapp_firebase/screen/login/controller/profile_controller.dart';
 import 'package:chatapp_firebase/utils/helper/auth_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ProfileController controller = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,21 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.offAllNamed('/profile');
                 },
                 title: const Text("Manage you're profile"),
-                trailing: const Icon(Icons.person),
+                trailing: const Icon(Icons.account_circle),
               ),
             ],
           ),
         ),
       ),
       body: ListView.builder(
-        itemCount: 30,
+        itemCount: 20,
           itemBuilder: (context, index) {
             return Card(
               elevation: 0.20,
               child: ListTile(
                 onTap: (){},
                 leading: const CircleAvatar(),
-                title: const Text('Name'),
+                // title:  Text('${controller.profileModel!.name}'),
+                // subtitle: Text('${controller.profileModel!.mobile}'),
               ),
             );
           },),

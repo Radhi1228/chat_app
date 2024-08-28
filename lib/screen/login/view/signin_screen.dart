@@ -48,7 +48,8 @@ class _SignInScreenState extends State<SignInScreen> {
               String msg = await AuthHelper.helper.signInWithEmailPassword(txtEmail.text, txtPassword.text);
               if(msg == "SignIn Successfully")
                 {
-                    Get.offAndToNamed('/home');
+                  AuthHelper.helper.checkUser();
+                    Get.offAndToNamed('/profile');
                     Get.snackbar('Login Successful', 'Chatify');
                 }
               else
@@ -64,6 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 String msg = await AuthHelper.helper.signInWithGoogle();
                 if(msg == "SignIn Successfully")
                 {
+                  AuthHelper.helper.checkUser();
                   Get.offAndToNamed('/profile');
                   Get.snackbar('Login Successful', 'Chatify');
                 }

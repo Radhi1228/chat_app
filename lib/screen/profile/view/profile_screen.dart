@@ -1,8 +1,8 @@
+import 'package:chatapp_firebase/screen/login/controller/profile_controller.dart';
 import 'package:chatapp_firebase/screen/profile/model/profile_model.dart';
 import 'package:chatapp_firebase/utils/helper/fire_db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,6 +16,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController txtMobile = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtBio = TextEditingController();
+  ProfileController controller = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    getProfileData();
+    super.initState();
+  }
+
+  void getProfileData()
+  async
+  {
+   await controller.getSignInData();
+    if(controller.profileModel != null)
+      {
+        txtMobile.text = controller.profileModel!.mobile!;
+        txtName.text = controller.profileModel!.name!;
+        txtEmail.text = controller.profileModel!.email!;
+        txtBio.text = controller.profileModel!.bio!;
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       name: txtName.text,
                       email: txtEmail.text,
                       bio: txtBio.text,
-                      mobile: txtMobile.text));
+                      mobile: txtMobile.text),);
                   Get.offAllNamed('/home');
                 },
                 child: const Text("Submit"),

@@ -33,9 +33,8 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '💬',
-              style: TextStyle(fontSize: 120,color: fav),
+            Icon(
+              Icons.chat,size: 120,color: fav,
             ),
           ],
         ),
