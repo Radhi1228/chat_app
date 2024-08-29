@@ -24,6 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               ListTile(
+                onTap: () {
+                  Get.offAllNamed('/profile');
+                },
+                title: const Text("Manage you're profile"),
+                trailing: const Icon(Icons.account_circle),
+              ),
+              ListTile(
                 onTap: () async{
                   await AuthHelper.helper.signOut();
                   Get.offAllNamed('/signIn');
@@ -31,13 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Text("Logout you're account"),
                 trailing: const Icon(Icons.logout),
               ),
-              ListTile(
-                onTap: () {
-                  Get.offAllNamed('/profile');
-                },
-                title: const Text("Manage you're profile"),
-                trailing: const Icon(Icons.account_circle),
-              ),
+
             ],
           ),
         ),
@@ -55,6 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+        Get.toNamed('/user');
+      },child: const Icon(Icons.person),),
     );
   }
 }

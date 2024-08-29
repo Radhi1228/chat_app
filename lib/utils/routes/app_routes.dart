@@ -3,6 +3,7 @@ import 'package:chatapp_firebase/screen/login/view/signin_screen.dart';
 import 'package:chatapp_firebase/screen/login/view/signup_screen.dart';
 import 'package:chatapp_firebase/screen/profile/view/profile_screen.dart';
 import 'package:chatapp_firebase/screen/splash/view/splash_screen.dart';
+import 'package:chatapp_firebase/users/view/alluser_screen.dart';
 import 'package:flutter/material.dart';
 
 Map<String,WidgetBuilder> appRoutes =
@@ -12,4 +13,5 @@ Map<String,WidgetBuilder> appRoutes =
   '/signUp' : (c1) => const SignUpScreen(),
   '/home' : (c1) => const HomeScreen(),
   '/profile' : (c1) => const ProfileScreen(),
+  '/user' : (c1) => const AllUserScreen(),
 };
