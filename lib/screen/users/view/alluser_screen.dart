@@ -1,3 +1,4 @@
+import 'package:chatapp_firebase/screen/users/controller/user_controller.dart';
 import 'package:chatapp_firebase/users/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
