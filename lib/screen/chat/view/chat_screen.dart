@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utils/color/app_color.dart';
-import '../../../utils/color/app_color.dart';
-import '../../../utils/color/app_color.dart';
 import '../../../utils/helper/auth_helper.dart';
 import '../../../utils/helper/fire_db_helper.dart';
 import '../../profile/model/profile_model.dart';
@@ -126,6 +124,10 @@ class _ChatScreenState extends State<ChatScreen> {
               }),
           //const SearchBar(),
           Card(
+            margin: const EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -136,6 +138,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 ),
+                Icon(Icons.keyboard_voice),
                 IconButton(
                   onPressed: () {
                     ChatModel chatModel = ChatModel(

@@ -1,7 +1,6 @@
 import 'package:chatapp_firebase/screen/users/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../utils/helper/auth_helper.dart';
 import '../../../utils/helper/fire_db_helper.dart';
 

@@ -3,7 +3,6 @@ import 'package:chatapp_firebase/utils/helper/auth_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../utils/helper/fire_db_helper.dart';
 import '../controller/home_controller.dart';
 
@@ -17,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ProfileController controller = Get.put(ProfileController());
   HomeController homeController = Get.put(HomeController());
+
   @override
   void initState() {
     homeController.getUsers();
@@ -26,38 +26,161 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Chatify'),
-        actions: [],
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Icon(Icons.search),
+          ),
+          // PopupMenuButton(
+          //   itemBuilder: (context) => [
+          //     PopupMenuItem(
+          //       child: IconButton(
+          //         onPressed: () {
+          //           homeController.setThemeData();
+          //         },
+          //         icon: Icon(
+          //           homeController.isTheme == false
+          //               ? Icons.light_mode
+          //               : Icons.dark_mode,
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // )
+        ],
       ),
       drawer: Drawer(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: Column(
-            children: [
-              ListTile(
-                onTap: () {
-                  Get.offAllNamed('/profile');
-                },
-                title: const Text("Manage you're profile"),
-                trailing: const Icon(Icons.account_circle),
-              ),
-              ListTile(
-                onTap: () async{
-                  await AuthHelper.helper.signOut();
-                  Get.offAllNamed('/signIn');
-                },
-                title: const Text("Logout you're account"),
-                trailing: const Icon(Icons.logout),
-              ),
-
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 45,
+                      child: Icon(Icons.person),
+                    ),
+                    SizedBox(
+                      height: 08,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          "Radhi Rakhasiya",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Text("+91 8160473626"),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    onTap: () {
+                      Get.offAllNamed('/profile');
+                    },
+                    title: const Text("Manage you're profile"),
+                    leading: const Icon(Icons.account_circle),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Add Account"),
+                    leading: Icon(Icons.add),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("New Group"),
+                    //trailing: const Icon(Icons.group),
+                    leading: Icon(Icons.group),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("you're Contacts"),
+                    leading: Icon(Icons.contact_page),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Calls"),
+                    leading: Icon(Icons.call),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Peoples Nearby"),
+                    leading: Icon(Icons.near_me_outlined),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Saved Messages"),
+                    leading: Icon(Icons.bookmark),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Setting"),
+                    leading: Icon(Icons.settings),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Invite Friends"),
+                    leading: Icon(Icons.person_add),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Theme"),
+                    leading: Icon(Icons.invert_colors_sharp),
+                  ),
+                ),
+                const Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text("Chatify Features"),
+                    leading: Icon(Icons.more_outlined),
+                  ),
+                ),
+                Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    onTap: () async {
+                      await AuthHelper.helper.signOut();
+                      Get.offAllNamed('/signIn');
+                    },
+                    title: const Text("Logout you're account"),
+                    leading: const Icon(Icons.logout),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
       body: StreamBuilder(
         stream: homeController.chatUsers,
-        builder: (context, snapshot)  {
+        builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text("${snapshot.error}");
           } else if (snapshot.hasData) {
@@ -77,28 +200,54 @@ class _HomeScreenState extends State<HomeScreen> {
               }
 
               //getUserData receiver User UID
-              homeController.getUIDUsers(receiverID).then((value) {
-                homeController.userList.add(homeController.model!);
-              },);
+              homeController.getUIDUsers(receiverID).then(
+                (value) {
+                  homeController.userList.add(homeController.model!);
+                },
+              );
             }
 
             return Obx(
-                  () => ListView.builder(
+              () =>
+                  // Column(
+                  //   children: [
+                  //     GridView.builder(
+                  //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //           crossAxisCount: 2),
+                  //       itemBuilder: (context, index) {
+                  //         return Container();
+                  //       },
+                  //     ),
+              //     Stack(children: [
+              //   Image.asset(
+              //     "assets/image/image.jpg",
+              //     height: MediaQuery.sizeOf(context).height,
+              //     width: MediaQuery.sizeOf(context).width,
+              //   ),
+              //
+              // ]),
+              ListView.builder(
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
-                      await FireDbHelper.helper.getChatDoc(AuthHelper.helper.user!.uid, homeController.userList[index].uid!);
-                      Get.toNamed('/chat',arguments: homeController.userList[index]);
+                      await FireDbHelper.helper.getChatDoc(
+                          AuthHelper.helper.user!.uid,
+                          homeController.userList[index].uid!);
+                      Get.toNamed('/chat',
+                          arguments: homeController.userList[index]);
                     },
                     leading: CircleAvatar(
-                      child: Text("${homeController.userList[index].name![0]}"),
+                      child:
+                      Text("${homeController.userList[index].name![0]}"),
                     ),
-                    title:  Text("${homeController.userList[index].name}"),
-                    subtitle: Text("${homeController.userList[index].mobile}"),
+                    title: Text("${homeController.userList[index].name}"),
+                    subtitle:
+                    Text("${homeController.userList[index].mobile}"),
                   );
                 },
                 itemCount: homeController.userList.length,
-              ),
+              )
+              //],),
             );
           }
           return const Center(
@@ -107,9 +256,11 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-        Get.toNamed('/user');
-      },child: const Icon(Icons.person),),
+        onPressed: () {
+          Get.toNamed('/user');
+        },
+        child: const Icon(Icons.person),
+      ),
     );
   }
 }
