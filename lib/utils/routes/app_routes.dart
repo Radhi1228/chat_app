@@ -1,3 +1,4 @@
+import 'package:chatapp_firebase/screen/chat/view/chat_screen.dart';
 import 'package:chatapp_firebase/screen/home/view/home_screen.dart';
 import 'package:chatapp_firebase/screen/login/view/signin_screen.dart';
 import 'package:chatapp_firebase/screen/login/view/signup_screen.dart';
@@ -14,4 +15,5 @@ Map<String,WidgetBuilder> appRoutes =
   '/home' : (c1) => const HomeScreen(),
   '/profile' : (c1) => const ProfileScreen(),
   '/user' : (c1) => const AllUserScreen(),
+  '/chat' : (c1) => const ChatScreen(),
 };
