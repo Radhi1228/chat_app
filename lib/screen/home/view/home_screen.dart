@@ -3,6 +3,7 @@ import 'package:chatapp_firebase/utils/helper/auth_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../utils/color/app_color.dart';
 import '../../../utils/helper/fire_db_helper.dart';
 import '../controller/home_controller.dart';
 
@@ -63,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CircleAvatar(
+                      backgroundColor: fav,
                       radius: 45,
                       child: Icon(Icons.person),
                     ),
@@ -91,26 +93,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     leading: const Icon(Icons.account_circle),
                   ),
                 ),
-                const Card(
+                Card(
                   elevation: 0.5,
                   child: ListTile(
-                    title: Text("Add Account"),
-                    leading: Icon(Icons.add),
+                    onTap: (){
+                      Get.offAllNamed('/signUp');
+                    },
+                    title: const Text("Add Account"),
+                    leading: const Icon(Icons.add),
                   ),
                 ),
                 const Card(
                   elevation: 0.5,
                   child: ListTile(
+
                     title: Text("New Group"),
                     //trailing: const Icon(Icons.group),
                     leading: Icon(Icons.group),
                   ),
                 ),
-                const Card(
+                Card(
                   elevation: 0.5,
                   child: ListTile(
-                    title: Text("you're Contacts"),
-                    leading: Icon(Icons.contact_page),
+                    onTap: (){
+                      Get.offAllNamed('/user');
+                    },
+                    title: const Text("you're Contacts"),
+                    leading: const Icon(Icons.contact_page),
                   ),
                 ),
                 const Card(
@@ -148,11 +157,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     leading: Icon(Icons.person_add),
                   ),
                 ),
-                const Card(
+                 Card(
                   elevation: 0.5,
                   child: ListTile(
-                    title: Text("Theme"),
-                    leading: Icon(Icons.invert_colors_sharp),
+                    onTap: (){
+                      homeController.setThemeData();
+                    },
+                    title: const Text("Theme"),
+                    leading: const Icon(Icons.invert_colors_sharp),
                   ),
                 ),
                 const Card(
@@ -237,6 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           arguments: homeController.userList[index]);
                     },
                     leading: CircleAvatar(
+                      backgroundColor: fav,
                       child:
                       Text("${homeController.userList[index].name![0]}"),
                     ),
@@ -256,11 +269,20 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: fav,
         onPressed: () {
           Get.toNamed('/user');
         },
         child: const Icon(Icons.person),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home)),
+      //     BottomNavigationBarItem(icon: Icon(Icons.change_circle_rounded)),
+      //     BottomNavigationBarItem(icon: Icon(Icons.call)),
+      //     BottomNavigationBarItem(icon: Icon(Icons.star_border)),
+      //   ],
+      // ),
     );
   }
 }

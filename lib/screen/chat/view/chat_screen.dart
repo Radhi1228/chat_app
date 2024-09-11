@@ -34,15 +34,22 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: Container(
           height: 100,
           width: 100,
-          padding: const EdgeInsets.only(left:10),
+          padding: const EdgeInsets.only(left: 10),
           child: CircleAvatar(
-            child: Text(model.name![0],style: const TextStyle(fontSize: 20),),
+            child: Text(
+              model.name![0],
+              style: const TextStyle(fontSize: 20),
+            ),
+            backgroundColor: fav,
           ),
         ),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: Icon(Icons.videocam_outlined,size: 30,),
+            child: Icon(
+              Icons.videocam_outlined,
+              size: 30,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
@@ -54,8 +61,14 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
+          Image.asset(
+            "assets/image/chat.jpeg",
+            height: MediaQuery.sizeOf(context).height,
+            width: MediaQuery.sizeOf(context).width,
+            fit: BoxFit.cover,
+          ),
           StreamBuilder(
               stream: controller.dataSnap,
               builder: (context, snapshot) {
@@ -88,7 +101,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                   AuthHelper.helper.user!.uid) {
                                 Get.defaultDialog(
                                     title: "Chatify",
-                                    middleText: "Are you sure want to delete this message?",
+                                    middleText:
+                                        "Are you sure want to delete this message?",
                                     actions: [
                                       TextButton(
                                           onPressed: () {
@@ -99,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                           onPressed: () async {
                                             await FireDbHelper.helper
                                                 .deleteChat(
-                                                chatList[index].docId!);
+                                                    chatList[index].docId!);
                                             Get.back();
                                           },
                                           child: const Text("Delete")),
@@ -110,9 +124,20 @@ class _ChatScreenState extends State<ChatScreen> {
                               width: MediaQuery.sizeOf(context).width * 0.50,
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
-                                  color: Colors.cyan.shade100,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text("${chatList[index].msg}"),
+                                color: fav,
+                                borderRadius: chatList[index].senderId !=
+                                        AuthHelper.helper.user!.uid
+                                    ? const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10))
+                                    : const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Text("${chatList[index].msg}"),
+                              ),
                             ),
                           ),
                         );
@@ -124,6 +149,7 @@ class _ChatScreenState extends State<ChatScreen> {
               }),
           //const SearchBar(),
           Card(
+            color: fav,
             margin: const EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -134,11 +160,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: TextFormField(
                     controller: txtChat,
                     decoration: const InputDecoration(
+                      hintStyle: TextStyle(wordSpacing: 1),
                       hintText: "Write message",
                     ),
                   ),
                 ),
-                Icon(Icons.keyboard_voice),
+                const Icon(Icons.keyboard_voice),
                 IconButton(
                   onPressed: () {
                     ChatModel chatModel = ChatModel(
@@ -149,7 +176,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         AuthHelper.helper.user!.uid, "${model.uid}", chatModel);
                   },
                   icon: const Icon(Icons.send),
-                  color: fav,
+                  color: Colors.white,
                 )
               ],
             ),

@@ -77,7 +77,7 @@ class FireDbHelper {
   }
 
   Future<String?> checkChatConversation(String senderId , String receiverId) async {
-    QuerySnapshot snapshot = await fireStore.collection("Chat").where("uids",arrayContainsAny:
+    QuerySnapshot snapshot = await fireStore.collection("Chat").where("uids",isEqualTo:
     [
       senderId,
       receiverId
@@ -86,7 +86,7 @@ class FireDbHelper {
     List<DocumentSnapshot> docList = snapshot.docs;
 
     if(docList.isEmpty){
-      QuerySnapshot snapshot = await fireStore.collection("Chat").where("uids",arrayContainsAny: [
+      QuerySnapshot snapshot = await fireStore.collection("Chat").where("uids",isEqualTo: [
         receiverId,
         senderId,
       ]).get();
@@ -123,7 +123,7 @@ class FireDbHelper {
     //     }
     //   }
     // }
-
+    print("=============  $docId");
     Stream<QuerySnapshot<Map>> sp = fireStore.
     collection("Chat").
     doc(docId).

@@ -43,82 +43,85 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Manage Profile'),
       ),
-      body: Center(
-        child: Card(
-          child: Column(
-            children: [
-              // ListTile(
-              //   onTap: (){},
-              //   leading: const CircleAvatar(radius: 30),
-              //   title: const Text('Name',style: TextStyle(fontSize: 20,),),
-              //   subtitle: const Text('Bio',style: TextStyle(fontSize: 16),),
-              // ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: CircleAvatar(radius: 50),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: txtName,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Name',
-                    prefixIcon: Icon(Icons.person),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+          child: Card(
+            child: Column(
+              children: [
+                // ListTile(
+                //   onTap: (){},
+                //   leading: const CircleAvatar(radius: 30),
+                //   title: const Text('Name',style: TextStyle(fontSize: 20,),),
+                //   subtitle: const Text('Bio',style: TextStyle(fontSize: 16),),
+                // ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: CircleAvatar(radius: 50),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: txtName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Name',
+                      prefixIcon: Icon(Icons.person),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: txtEmail,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: txtEmail,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.email),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: txtMobile,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Mobile',
-                    prefixIcon: Icon(Icons.phone),
-                  ),
-                  keyboardType: TextInputType.phone,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: txtBio,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Bio',
-                    prefixIcon: Icon(Icons.text_snippet),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: txtMobile,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Mobile',
+                      prefixIcon: Icon(Icons.phone),
+                    ),
+                    keyboardType: TextInputType.phone,
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () {
-                  FireDbHelper.helper.setProfile(ProfileModel(
-                      name: txtName.text,
-                      email: txtEmail.text,
-                      bio: txtBio.text,
-                      mobile: txtMobile.text),);
-                  Get.offAllNamed('/home');
-                },
-                child: const Text("Submit"),
-              ),
-            ],
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: txtBio,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Bio',
+                      prefixIcon: Icon(Icons.text_snippet),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: () {
+                    FireDbHelper.helper.setProfile(ProfileModel(
+                        name: txtName.text,
+                        email: txtEmail.text,
+                        bio: txtBio.text,
+                        mobile: txtMobile.text),);
+                    Get.offAllNamed('/home');
+                  },
+                  child: const Text("Submit"),
+                ),
+              ],
+            ),
           ),
         ),
       ),

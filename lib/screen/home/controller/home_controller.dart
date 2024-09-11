@@ -21,7 +21,7 @@ class HomeController extends GetxController
   void setThemeData() async {
     theme = !theme;
     SharedHelper.helper.setData(isTheme: theme);
-    isTheme = (await SharedHelper.helper.getData())!;
+    isTheme = (await SharedHelper.helper.getData())??false;
     if (isTheme == true) {
       mode = ThemeMode.dark;
       themeMode = Icons.light_mode;
@@ -29,11 +29,6 @@ class HomeController extends GetxController
       mode = ThemeMode.light;
       themeMode = Icons.dark_mode;
     }
-
-  }
-
-  void changeTheme() {
-    isOn = !isOn;
 
   }
 

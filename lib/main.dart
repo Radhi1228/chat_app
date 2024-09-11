@@ -11,22 +11,41 @@ import 'package:timezone/data/latest.dart' as tz;
 void main()
 async{
 WidgetsFlutterBinding.ensureInitialized();
-HomeController controller = Get.put(HomeController());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService.notificationService.initNotification();
   tz.initializeTimeZones();
-  controller.getThemeData();
   runApp(
-      GetMaterialApp(
-        themeMode: controller.mode,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          colorSchemeSeed: fav,
-        ),
+      MyApp()
+  );
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  HomeController controller = Get.put(HomeController());
+@override
+  void initState() {
+  controller.getThemeData();
+
+  super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      themeMode: controller.mode,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        colorSchemeSeed: fav,
+      ),
       debugShowCheckedModeBanner: false,
       routes: appRoutes,
-    )
-  );
+    );
+  }
 }
