@@ -269,6 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
         backgroundColor: fav,
         onPressed: () {
           Get.toNamed('/user');
