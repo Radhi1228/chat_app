@@ -36,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Icon(
               Icons.chat,size: 120,color: fav,
             ),
+            Text("Chatify")
           ],
         ),
       ),

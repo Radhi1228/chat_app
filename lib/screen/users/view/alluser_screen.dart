@@ -1,6 +1,7 @@
 import 'package:chatapp_firebase/screen/users/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../utils/color/app_color.dart';
 import '../../../utils/helper/auth_helper.dart';
 import '../../../utils/helper/fire_db_helper.dart';
 
@@ -39,6 +40,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
               },
               child: ListTile(
                 leading: CircleAvatar(
+                  backgroundColor: fav,
                   child: Text(controller.profileList[index].name![0]),
                 ),
                 title: Text('${controller.profileList[index].name}'),
