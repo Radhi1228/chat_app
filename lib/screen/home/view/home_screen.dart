@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Chatify'),
         actions: const [
@@ -129,20 +128,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     leading: Icon(Icons.call),
                   ),
                 ),
-                const Card(
-                  elevation: 0.5,
-                  child: ListTile(
-                    title: Text("Peoples Nearby"),
-                    leading: Icon(Icons.near_me_outlined),
-                  ),
-                ),
-                const Card(
-                  elevation: 0.5,
-                  child: ListTile(
-                    title: Text("Saved Messages"),
-                    leading: Icon(Icons.bookmark),
-                  ),
-                ),
+                // const Card(
+                //   elevation: 0.5,
+                //   child: ListTile(
+                //     title: Text("Peoples Nearby"),
+                //     leading: Icon(Icons.near_me_outlined),
+                //   ),
+                // ),
+                // const Card(
+                //   elevation: 0.5,
+                //   child: ListTile(
+                //     title: Text("Saved Messages"),
+                //     leading: Icon(Icons.bookmark),
+                //   ),
+                // ),
                 const Card(
                   elevation: 0.5,
                   child: ListTile(
@@ -190,37 +189,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: StreamBuilder(
-        stream: homeController.chatUsers,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else if (snapshot.hasData) {
-            homeController.userList.clear();
-            QuerySnapshot? qs = snapshot.data;
+      body: Stack(children: [
+        Obx(() =>
+          homeController.isTheme== true?Image.asset(
+            "assets/image/chat.jpeg",
+            height: MediaQuery.sizeOf(context).height,
+            width: MediaQuery.sizeOf(context).width,
+            fit: BoxFit.cover,
+          ):Image.asset(
+            "assets/image/lgh.png",
+            height: MediaQuery.sizeOf(context).height,
+            width: MediaQuery.sizeOf(context).width,
+            fit: BoxFit.cover,
+          ),
+        ),
+        StreamBuilder(
+          stream: homeController.chatUsers,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else if (snapshot.hasData) {
+              homeController.userList.clear();
+              QuerySnapshot? qs = snapshot.data;
 
-            List<QueryDocumentSnapshot> qsList = qs!.docs;
+              List<QueryDocumentSnapshot> qsList = qs!.docs;
 
-            for (var x in qsList) {
-              Map m1 = x.data() as Map;
-              List uidList = m1['uids'];
-              String receiverID = "";
-              if (uidList[0] == AuthHelper.helper.user!.uid) {
-                receiverID = uidList[1];
-              } else {
-                receiverID = uidList[0];
+              for (var x in qsList) {
+                Map m1 = x.data() as Map;
+                List uidList = m1['uids'];
+                String receiverID = "";
+                if (uidList[0] == AuthHelper.helper.user!.uid) {
+                  receiverID = uidList[1];
+                } else {
+                  receiverID = uidList[0];
+                }
+
+                //getUserData receiver User UID
+                homeController.getUIDUsers(receiverID).then(
+                      (value) {
+                    homeController.userList.add(homeController.model!);
+                  },
+                );
               }
 
-              //getUserData receiver User UID
-              homeController.getUIDUsers(receiverID).then(
-                (value) {
-                  homeController.userList.add(homeController.model!);
-                },
-              );
-            }
-
-            return Obx(
-              () =>
+              return Obx(
+                      () =>
                   // Column(
                   //   children: [
                   //     GridView.builder(
@@ -230,43 +243,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   //         return Container();
                   //       },
                   //     ),
-              //     Stack(children: [
-              //   Image.asset(
-              //     "assets/image/image.jpg",
-              //     height: MediaQuery.sizeOf(context).height,
-              //     width: MediaQuery.sizeOf(context).width,
-              //   ),
-              //
-              // ]),
-              ListView.builder(
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () async {
-                      await FireDbHelper.helper.getChatDoc(
-                          AuthHelper.helper.user!.uid,
-                          homeController.userList[index].uid!);
-                      Get.toNamed('/chat',
-                          arguments: homeController.userList[index]);
+                  //     Stack(children: [
+                  //   Image.asset(
+                  //     "assets/image/image.jpg",
+                  //     height: MediaQuery.sizeOf(context).height,
+                  //     width: MediaQuery.sizeOf(context).width,
+                  //   ),
+                  //
+                  // ]),
+                  ListView.builder(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () async {
+                          await FireDbHelper.helper.getChatDoc(
+                              AuthHelper.helper.user!.uid,
+                              homeController.userList[index].uid!);
+                          Get.offAllNamed('/chat',
+                              arguments: homeController.userList[index]);
+                        },
+                        leading: CircleAvatar(
+                          backgroundColor: fav,
+                          child:
+                          Text("${homeController.userList[index].name![0]}"),
+                        ),
+                        title: Text("${homeController.userList[index].name}"),
+                        subtitle:
+                        Text("${homeController.userList[index].mobile}"),
+                      );
                     },
-                    leading: CircleAvatar(
-                      backgroundColor: fav,
-                      child:
-                      Text("${homeController.userList[index].name![0]}"),
-                    ),
-                    title: Text("${homeController.userList[index].name}"),
-                    subtitle:
-                    Text("${homeController.userList[index].mobile}"),
-                  );
-                },
-                itemCount: homeController.userList.length,
-              )
-              //],),
+                    itemCount: homeController.userList.length,
+                  )
+                //],),
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
+      ],
+
       ),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,

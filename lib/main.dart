@@ -17,7 +17,7 @@ WidgetsFlutterBinding.ensureInitialized();
   NotificationService.notificationService.initNotification();
   tz.initializeTimeZones();
   runApp(
-      MyApp()
+      const MyApp()
   );
 }
 
@@ -33,19 +33,26 @@ class _MyAppState extends State<MyApp> {
 @override
   void initState() {
   controller.getThemeData();
-
   super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      themeMode: controller.mode,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        colorSchemeSeed: fav,
+    return Obx(
+      ()=> GetMaterialApp(
+        themeMode: controller.isTheme.value?ThemeMode.dark:ThemeMode.light,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          colorSchemeSeed: fav,
+          buttonTheme: const ButtonThemeData(buttonColor: Colors.black),
+        ), darkTheme: ThemeData(
+          scaffoldBackgroundColor: Colors.black,
+          colorSchemeSeed: fav,
+          buttonTheme: const ButtonThemeData(buttonColor: Colors.white),
+        brightness: Brightness.dark
+        ),
+        debugShowCheckedModeBanner: false,
+        routes: appRoutes,
       ),
-      debugShowCheckedModeBanner: false,
-      routes: appRoutes,
     );
   }
 }

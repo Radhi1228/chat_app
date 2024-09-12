@@ -2,6 +2,7 @@ import 'package:chatapp_firebase/utils/helper/shared_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import '../../../utils/helper/fire_db_helper.dart';
 import '../../profile/model/profile_model.dart';
 
@@ -11,22 +12,21 @@ class HomeController extends GetxController
   ProfileModel? model;
   RxList<ProfileModel> userList = <ProfileModel>[].obs;
 
-  bool theme = false;
-  bool isTheme = false;
-  ThemeMode mode = ThemeMode.dark;
+  RxBool isTheme = false.obs;
+  Rx<ThemeMode> mode = ThemeMode.dark.obs;
   bool isOn = true;
   IconData themeMode = Icons.dark_mode;
 
 
   void setThemeData() async {
-    theme = !theme;
-    SharedHelper.helper.setData(isTheme: theme);
-    isTheme = (await SharedHelper.helper.getData())??false;
+    isTheme.value = !isTheme.value;
+    SharedHelper.helper.setData(isTheme: isTheme.value);
+    isTheme.value = (await SharedHelper.helper.getData())??false;
     if (isTheme == true) {
-      mode = ThemeMode.dark;
+      mode.value = ThemeMode.dark;
       themeMode = Icons.light_mode;
     } else if (isTheme == false) {
-      mode = ThemeMode.light;
+      mode.value = ThemeMode.light;
       themeMode = Icons.dark_mode;
     }
 
@@ -34,18 +34,18 @@ class HomeController extends GetxController
 
   void getThemeData() async {
     if (await SharedHelper.helper.getData() == null) {
-      isTheme = false;
+      isTheme.value = false;
     } else {
-      isTheme = (await SharedHelper.helper.getData())!;
+      isTheme.value = (await SharedHelper.helper.getData())!;
     }
     if (isTheme == true) {
-      mode = ThemeMode.dark;
+      mode.value = ThemeMode.dark;
       themeMode = Icons.light_mode;
     } else if (isTheme == false) {
-      mode = ThemeMode.light;
+      mode.value = ThemeMode.light;
       themeMode = Icons.dark_mode;
     } else {
-      mode = ThemeMode.dark;
+      mode.value = ThemeMode.dark;
       themeMode = Icons.light_mode;
     }
   }
